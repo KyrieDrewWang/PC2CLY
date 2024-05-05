@@ -1276,18 +1276,18 @@ def save_dataset_sk(fname, point_cloud, normals, extrusion_labels, bb_labels, n_
 def load_h5_sk(h5_filename, op=False, center=False, extent=False):
 	with h5py.File(h5_filename, 'r') as f:
 		# Normalized
-		point_cloud = f["point_cloud"][:]
-		normals = f["normals"][:]
-		extrusion_labels = f["extrusion_labels"][:]
-		bb_labels = f["base_barrel_labels"][:]
-		n_instances = f["n_instances"][:]
-		extrusion_axes = f["extrusion_axes"][:]
-		extrusion_distances = f["extrusion_distances"][:]
+		point_cloud = f["point_cloud"][:]  #(3921, 8192, 3)
+		normals = f["normals"][:] # (3921, 8192, 3)
+		extrusion_labels = f["extrusion_labels"][:] # (3921, 8192)
+		bb_labels = f["base_barrel_labels"][:] # (3921, 8192) 0, 1
+		n_instances = f["n_instances"][:]  # (3921,)
+		extrusion_axes = f["extrusion_axes"][:]  # (3921, 16, 3)
+		extrusion_distances = f["extrusion_distances"][:]  # (3921, 16)
 
 		if op:
 			extrusion_op = f["extrusion_operation"][:]
 		if center:
-			extrusion_center = f["extrusion_centers"][:]
+			extrusion_center = f["extrusion_centers"][:]  # (3921, 16, 3)
 
 		if extent:
 			extrusion_extents = f["extrusion_extents"][:]

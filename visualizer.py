@@ -19,10 +19,10 @@ sys.path.append(os.path.join(BASE_DIR, 'models'))
 
 ## For implicit
 sys.path.append(os.path.join(BASE_DIR, 'IGR'))
-from sampler import *
-from network import *
-from general import *
-from plots import plot_surface_2d
+from IGR.sampler import *
+from IGR.network import *
+from IGR.general import *
+from IGR.plots import plot_surface_2d
 from chamferdist import ChamferDistance
 chamferDist = ChamferDistance()
 
@@ -221,7 +221,7 @@ IGR_PP_INIT = FLAGS.igr_post_process_reinit
 ### Load the geometry
 
 # Individual model files
-h5_file = h5_file = os.path.join(DATA_DIR+DATA_SPLIT, "h5", str(MODEL_ID)+'.h5')
+h5_file = os.path.join(DATA_DIR+DATA_SPLIT, "h5", str(MODEL_ID)+'.h5')
 point_cloud, normals, extrusion_labels, extrusion_axes, extrusion_distances,\
 		 n_instances, vertices, faces, face_normals, face_to_ids, norm_factor, operation = get_model(h5_file, mesh_info=True, operation=True)
 

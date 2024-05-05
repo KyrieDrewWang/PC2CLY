@@ -4,7 +4,7 @@ import torch
 import numpy as np
 from skimage import measure
 import os
-import general as utils
+import IGR.general as utils
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 import pickle

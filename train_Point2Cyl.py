@@ -1,6 +1,7 @@
 # Mikaela Uy (mikacuy@cs.stanford.edu)
 import argparse
 import os
+os.environ["CUDA_VISIBLE_DEVICES"]="8"
 import sys
 import torch
 import torch.nn.functional as F
@@ -10,17 +11,11 @@ import importlib
 import shutil
 import numpy as np
 from collections import defaultdict
-
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-sys.path.append(BASE_DIR) # model
-sys.path.append(os.path.join(BASE_DIR, 'models'))
-
 ## For implicit
-sys.path.append(os.path.join(BASE_DIR, 'IGR'))
-from sampler import *
-from network import *
-from general import *
-from plots import plot_surface_2d
+from IGR.sampler import *
+from IGR.network import *
+from IGR.general import *
+from IGR.plots import plot_surface_2d
 
 from utils import * 
 from data_utils import *
@@ -439,7 +434,15 @@ def main():
                     W = torch.zeros((batch_size, NUM_POINT, K))
 
                 #### Compute segmentation and normal losses
-                total_loss, total_normal_loss, total_miou_loss, matching_indices, mask = compute_all_losses(pcs, W, gt_extrusion_instances, X, gt_normals, normal_loss_multiplier, miou_loss_multiplier, return_match_indices=True)			
+                total_loss, total_normal_loss, total_miou_loss, matching_indices, mask = compute_all_losses(
+                    pcs,  # Input pcs [b n 3]
+                    W, # logits of extrusion segmentation [b n 8]
+                    gt_extrusion_instances, # extrusion label
+                    X, # predicted normals
+                    gt_normals, # normal labels
+                    normal_loss_multiplier, 
+                    miou_loss_multiplier, 
+                    return_match_indices=True)			
 
                 # To compute for base and barrel loss
                 if (PRED_BB):

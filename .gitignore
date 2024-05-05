@@ -1,3 +1,10 @@
 log/
 output_visu/
 results/
+/data
+**/__pycache__
+__pycache__
+dump_*/
+output_*/
+runs/
+Point2Cyl

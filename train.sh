@@ -1,0 +1,1 @@
+python train_Point2Cyl.py --logdir log/Point2Cyl --pred_seg --pred_normal --pred_bb --with_im_loss --pred_extrusion --pc_logdir log/Point2Cyl_without_sketch/ --is_pc_init --is_pc_train --im_logdir results/IGR_dense/ --is_im_init --is_im_train --data_dir data/point2cyl/data

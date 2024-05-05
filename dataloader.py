@@ -132,7 +132,7 @@ class AutodeskDataset_h5_sketches(Dataset):
 		if not extent:
 			if op and not center:
 				point_cloud, normals, extrusion_labels, bb_labels, n_instances, extrusion_axes, extrusion_distances, extrusion_operations, sketches, sketches_norm_factors = load_h5_sk(filename, op=True)
-			elif not op and center:
+			elif not op and center: ###
 				point_cloud, normals, extrusion_labels, bb_labels, n_instances, extrusion_axes, extrusion_distances, extrusion_centers, sketches, sketches_norm_factors = load_h5_sk(filename, center=True)
 			elif op and center:
 				point_cloud, normals, extrusion_labels, bb_labels, n_instances, extrusion_axes, extrusion_distances, extrusion_operations, extrusion_centers, sketches, sketches_norm_factors = load_h5_sk(filename, op=True, center=True)

@@ -1,0 +1,56 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python Debugger: train_Point2Cyl.py",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "train_Point2Cyl.py",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "args": [
+                "--logdir",
+                "log/Point2Cyl",
+                "--pred_seg", 
+                "--pred_normal", 
+                "--pred_bb", 
+                "--with_im_loss",
+                "--pred_extrusion",
+                "--pc_logdir",
+                "log/Point2Cyl_without_sketch/", 
+                "--is_pc_init", 
+                "--is_pc_train", 
+                "--im_logdir",
+                "results/IGR_dense/", 
+                "--is_im_init", 
+                "--is_im_train", 
+                "--data_dir",
+                "data/point2cyl/data",
+            ]
+        },
+        {
+            "name": "Python Debugger: visualizer",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "visualizer.py",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "args": [
+                "--logdir",
+                "results/Point2Cyl",
+                "--model_id",
+                "55838_a1513314_0000_1",
+                "--dump_dir",
+                "dump_55838_a1513314_0000_1", 
+                "--output_dir",
+                "output_55838_a1513314_0000_1", 
+                "--data_dir",
+                "data/point2cyl/data/",
+                "--seg_post_process"
+            ]
+        }
+    ]
+}

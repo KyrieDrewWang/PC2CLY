@@ -1,0 +1,7 @@
+{
+    "exclude": [
+        "log",
+        "data",
+        "results",
+    ]
+}

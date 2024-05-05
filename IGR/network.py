@@ -3,7 +3,7 @@ import torch.nn as nn
 import torch
 from torch.autograd import grad
 import torch.nn.functional as F
-from general import *
+from IGR.general import *
 
 def gradient(inputs, outputs):
     d_points = torch.ones_like(outputs, requires_grad=False, device=outputs.device)

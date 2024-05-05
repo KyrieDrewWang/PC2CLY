@@ -1,5 +1,5 @@
 import torch
-import general as utils
+import IGR.general as utils
 import abc
 
 
