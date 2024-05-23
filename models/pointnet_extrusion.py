@@ -64,3 +64,10 @@ class backbone(nn.Module):
             result = result.transpose(1,2)
             results.append(result)
         return results
+
+
+if __name__ == "__main__":
+    model = backbone([3, 16])
+    a = torch.randn((4,4096,3))
+    b = model(a)
+    print(b.shape)

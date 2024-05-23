@@ -286,6 +286,7 @@ def main():
                 cur_batch_size, _, _ = sampled_pcs.size()
                 W_reordered = torch.gather(W, 2, matching_indices.unsqueeze(1).expand(cur_batch_size, NUM_POINT, K)) # BxNxK
                 mask = mask.float()
+                
                 W_reordered = torch.where((mask).unsqueeze(1).expand(cur_batch_size, NUM_POINT, K)==1, W_reordered, torch.zeros_like(W_reordered))
                 W_reordered = torch.softmax(W_reordered, dim=-1)
 

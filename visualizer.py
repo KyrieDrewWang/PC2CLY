@@ -522,7 +522,7 @@ if SEG_PP:
 	### Mask label for unknown
 	prev_labels[indices_to_mask] = curr_n_instances
 
-
+##
 	##### When a label as a disconnected component unlabel it
 	for i in range(curr_n_instances):
 		### Get points with label of a current instance
@@ -599,7 +599,7 @@ if SEG_PP:
 		acc = np.sum(extrusion_relabeled==extrusion_labels[idx[:NUM_POINTS]])/curr_pc.shape[0]
 		print("Refined accuracy: "+str(acc))
 		print()
-
+##
 	visualize_segmentation_pc_bb_v2(MODEL_ID, DUMP_DIR, curr_pc, extrusion_labels[idx[:NUM_POINTS]], curr_extrusion_labels, curr_bb_labels, curr_bb_labels, f, g)
 	# visualize_segmentation_pc_bb_v2(MODEL_ID, DUMP_DIR, curr_pc, curr_extrusion_labels, extrusion_relabeled, curr_bb_labels, curr_bb_labels, f, g)
 	f.close()
@@ -858,7 +858,7 @@ for i in range(curr_n_instances):
 
 			### Slow
 			net_input = add_latent(xyz_coord_projected, curr_implicit_latent_code)
-			sk_pred = implicit_net(net_input)
+			+ = implicit_net(net_input)
 
 			occupancy_sdf = (sk_pred <= 0.0).to(torch.float).T
 

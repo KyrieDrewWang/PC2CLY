@@ -1,7 +1,7 @@
 # Mikaela Uy (mikacuy@cs.stanford.edu)
 import argparse
 import os
-os.environ["CUDA_VISIBLE_DEVICES"]="8"
+os.environ["CUDA_VISIBLE_DEVICES"]="7"
 import sys
 import torch
 import torch.nn.functional as F

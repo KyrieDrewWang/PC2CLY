@@ -314,8 +314,15 @@ def axis_normal_regularization_loss(X, E_AX, gt_bb_labels, gt_extrusion_instance
 
 #######################################
 
-def compute_all_losses(P, W, I_gt, X, X_gt,
-                       normal_loss_multiplier, miou_loss_multiplier, return_match_indices=False, collapse=True):
+def compute_all_losses(P, # Input pcs [b n 3]
+					   W, # logits of extrusion segmentation [b n 8]
+					   I_gt, # extrusion label
+					   X, # predicted normals
+					   X_gt, # normal labels
+                       normal_loss_multiplier, 
+					   miou_loss_multiplier, 
+					   return_match_indices=False, 
+					   collapse=True):
 	batch_size, _, n_max_instances = W.size()
 
 	mask_gt = get_mask_gt(I_gt, n_max_instances)

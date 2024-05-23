@@ -297,7 +297,7 @@ class AutodeskDataset_h5_sketches(Dataset):
 
 
 if __name__ == "__main__":
-	fname = "../../autodesk_data_extrusions/data_ss_dense_ext2_8_filtersmallext/train.h5"
+	fname = "data/point2cyl/data/train.h5"
 	num_points = 4096
 	max_instances = 8
 	
@@ -307,7 +307,7 @@ if __name__ == "__main__":
 				per_point_extrusion_distances, extrusion_axes, extrusion_distances = dataset[0]
 
 	print(sampled_pcs)	
-	print(sampled_normals)	
+	print("sampled_normals", F.normalize(torch.tensor(sampled_normals), p=2, dim=1))	
 	print(sampled_extrusion_labels)	
 	print(sampled_bb_labels)	
 	print(per_point_extrusion_axes)	

@@ -1298,7 +1298,7 @@ def load_h5_sk(h5_filename, op=False, center=False, extent=False):
 	if not extent:
 		if not op and not center:
 			return point_cloud, normals, extrusion_labels, bb_labels, n_instances, extrusion_axes, extrusion_distances, sketches, sketches_norm_factors
-		if center and not op:
+		if center and not op: #
 			return point_cloud, normals, extrusion_labels, bb_labels, n_instances, extrusion_axes, extrusion_distances, extrusion_center, sketches, sketches_norm_factors 
 		if center and op:
 			return point_cloud, normals, extrusion_labels, bb_labels, n_instances, extrusion_axes, extrusion_distances, extrusion_op, extrusion_center, sketches, sketches_norm_factors 		
