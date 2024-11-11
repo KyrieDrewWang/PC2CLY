@@ -72,8 +72,8 @@ def get_extrude_infos(ordered_entities, json_entities, filter_two_extents=False,
 		normal = direction_from_sketch(json_entities[extrude_sketch])
 
 		if (1.0 - np.sum(np.abs(normal)**2,axis=-1)**(1./2)) > g_zero_tol:
-			 print("Extrusion axis not unit vector")
-			 normal /= np.sum(np.abs(normal)**2,axis=-1)**(1./2)
+			print("Extrusion axis not unit vector")
+			normal /= np.sum(np.abs(normal)**2,axis=-1)**(1./2)
 
 		extrude_info[entity] = {
 			"distance": extrude_distance,

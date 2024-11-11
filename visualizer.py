@@ -222,13 +222,14 @@ IGR_PP_INIT = FLAGS.igr_post_process_reinit
 
 # Individual model files
 h5_file = os.path.join(DATA_DIR+DATA_SPLIT, "h5", str(MODEL_ID)+'.h5')
-point_cloud, normals, extrusion_labels, extrusion_axes, extrusion_distances,\
-		 n_instances, vertices, faces, face_normals, face_to_ids, norm_factor, operation = get_model(h5_file, mesh_info=True, operation=True)
+# point_cloud, normals, extrusion_labels, extrusion_axes, extrusion_distances,n_instances, vertices, faces, face_normals, face_to_ids, norm_factor, operation = get_model(h5_file, mesh_info=True, operation=True)
+point_cloud, _, extrusion_labels, _, _, _, _, _, _, _, _, _ = get_model(h5_file, mesh_info=True, operation=True)
+
 
 ### For current sample
 curr_pc = point_cloud
 # curr_pc = curr_pc.astype(float)
-curr_n_instances = n_instances[0]
+curr_n_instances = 8 # n_instances[0]
 print("Number of extrusion instances: "+str(curr_n_instances))
 
 ### Downsample depending on number of points ##
@@ -858,7 +859,7 @@ for i in range(curr_n_instances):
 
 			### Slow
 			net_input = add_latent(xyz_coord_projected, curr_implicit_latent_code)
-			+ = implicit_net(net_input)
+			sk_pred = implicit_net(net_input)
 
 			occupancy_sdf = (sk_pred <= 0.0).to(torch.float).T
 

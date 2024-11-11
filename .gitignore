@@ -8,3 +8,5 @@ dump_*/
 output_*/
 runs/
 Point2Cyl
+dump/
+proj_log/

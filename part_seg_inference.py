@@ -1,11 +1,13 @@
 import torch
 from models import pointnet_extrusion
-from config.config import config as cfg
-from dataset.pc_loader import get_dataloader
+from config.config_pc2ext import config
+from dataset.dataset import get_dataloader
 from losses import *
 import matplotlib.pyplot as plt
 from tqdm import tqdm
-
+from util.file_utils import ensure_dir, ensure_dirs
+import numpy as np
+import h5py
 
 def vis_pc_seg(cfg, pc, pred_seg_label, data_id):
 
@@ -66,45 +68,51 @@ def vis_pc_bb(cfg, pc, pred_bb_label, data_id):
     plt.show()
 
 if __name__ == "__main__":
+    cfg = config("validation")
+    save_h5_dir = os.path.join(cfg.output_dir, "h5")
+    ensure_dir(save_h5_dir)
+
     torch.manual_seed(1234)
     np.random.seed(0)
     device = torch.device('cuda')
-    pred_sizes = [3, 16]
+    pred_sizes = [3, 16, 1]
     model = pointnet_extrusion.backbone(output_sizes=pred_sizes)
-    pc_data_loader = get_dataloader(cfg.phase, cfg)
-    model.load_state_dict(torch.load(cfg.pth_path)['model'])
+
+    pc_data_loader = get_dataloader(cfg, "test")
+    ckpt = torch.load(cfg.pth_path)['model']
+    # print(ckpt)
+    model.load_state_dict(ckpt)
     model.to(device)
     model.eval()
     
     bar = tqdm(pc_data_loader, desc="starting rendering inference pc")
     
     with torch.no_grad():
-        for i, batch in enumerate(bar):
-            pc_batch, norm_batch, data_id = batch
-            batch_size = pc_batch.size()[0]
-            # pc_batch = [pc.to(device) for pc in pc_batch]
-            # norm_batch = [n.to(device) for n in norm_batch]
-            # pc_batch = torch.stack(pc_batch)
-            # norm_batch = torch.stack(norm_batch)
-            pc_batch = pc_batch.to(device).to(torch.float)
-            X, W_raw = model(pc_batch)  # normals, geo info M
+        for i, data in enumerate(bar):
+            pc = data['pc'].cuda()
+            ext_label = data['ext_label'].cuda()
+            b,n,_ = pc.shape
+            X, W_raw,_ = model(pc)  # normals, geo info M
             
             W_2k = torch.softmax(W_raw, dim=2)
             W_barrel = W_2k[:, :, ::2]
             W_base   = W_2k[:, :, 1::2]
             W        = W_base + W_barrel
-            '''
-            0 for barrel
-            1 for base
-            ''' 
-            BB = torch.zeros(batch_size, cfg.n_points, 2).to(device)
-            for j in range(cfg.K):
-                BB[:,:,0] += W_2k[:, :, j*2]
-                BB[:,:,1] += W_2k[:, :, j*2 + 1]
+
+            prediction_ext = torch.argmax(W, dim=-1)
+            for j in range(len(prediction_ext)):
+                file_id = data['id'][j]
+                save_h5_path = os.path.join(save_h5_dir, file_id + '.h5')
+                ensure_dir(os.path.dirname(save_h5_path))
+
+                prediction_ext_j = prediction_ext[j].detach().cpu().numpy()
+                ext_label_j = ext_label[j].detach().cpu().numpy()
+                pc_j = pc[j].detach().cpu().numpy()
+
+                with h5py.File(save_h5_path, 'w') as fp:
+                    fp.create_dataset('pred_ext', data=prediction_ext_j, dtype=np.float32)
+                    fp.create_dataset('label_ext', data=ext_label_j, dtype=np.float32)
+                    fp.create_dataset('pc', data=pc_j, dtype=np.float32)
+
             
-            pc = pc_batch.squeeze().to("cpu").detach().numpy()
-            pred_bb_label = torch.argmax(BB, dim=-1).squeeze().to("cpu").detach().numpy()
-            pred_seg_label = torch.argmax(W, dim=2).squeeze().to("cpu").detach().numpy()
-            vis_pc_bb(cfg=cfg, pc=pc, pred_bb_label=pred_bb_label, data_id=data_id[0])
-            vis_pc_seg(cfg=cfg, pc=pc, pred_seg_label=pred_seg_label, data_id=data_id[0])
     bar.close()

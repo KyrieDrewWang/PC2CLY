@@ -44,12 +44,11 @@
                 "--model_id",
                 "55838_a1513314_0000_1",
                 "--dump_dir",
-                "dump_55838_a1513314_0000_1", 
+                "dump/dump/dump_55838_a1513314_0000_1", 
                 "--output_dir",
-                "output_55838_a1513314_0000_1", 
+                "dump/output/output_55838_a1513314_0000_1", 
                 "--data_dir",
                 "data/point2cyl/data/",
-                "--seg_post_process"
             ]
         }
     ]

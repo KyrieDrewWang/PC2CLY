@@ -1,0 +1,1 @@
+python eval.py --logdir=results/Point2Cyl/ --dump_dir=dump/ --data_dir=data/point2cyl/data/
